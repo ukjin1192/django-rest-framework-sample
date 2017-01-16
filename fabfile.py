@@ -3,8 +3,6 @@
 import os
 from boto3.session import Session
 from ConfigParser import ConfigParser
-# from fabric.api import task, local, run, sudo, settings
-# from fabric.context_managers import lcd, cd
 from fabric.api import *
 
 ROOT_DIR = os.path.dirname(__file__)
@@ -25,6 +23,7 @@ def localhost():
     env.run = local
     env.cd = lcd
     env.hosts = ['localhost']
+    env.warn_only = True
 
 @task
 def remote():
@@ -40,6 +39,7 @@ def remote():
     env.run = run
     env.cd = cd
     env.hosts = []
+    env.warn_only = True
     env.user = 'ubuntu'
     env.key_filename = ROOT_DIR + '/conf/sensitive/remote_server.pem'
     env.port = 22
@@ -83,9 +83,9 @@ def run_uwsgi():
 def stop_uwsgi():
     """
     Stop uWSGI
+    Note: `grep` and `awk` command should be wrapped with single quote
     """
-    with settings(warn_only=True):
-        env.run('ps -ef | grep uwsgi | grep -v grep | awk "{print $2}" | xargs kill -15')
+    env.run("ps -ef | grep 'uwsgi' | grep -v grep | awk '{print $2}' | xargs kill -15")
 
 @task(alias='rs')
 def run_shell():
@@ -136,11 +136,10 @@ def run_celery():
 def stop_celery():
     """
     Stop Celery and Celery beat
+    Note: `grep` and `awk` command should be wrapped with single quote
     """
-    with settings(warn_only=True):
-        env.run('ps auxww | grep "celery worker" | grep -v grep | awk "{print $2}" | xargs kill -15')
-    with settings(warn_only=True):
-        env.run('ps auxww | grep "celery beat" | grep -v grep | awk "{print $2}" | xargs kill -15')
+    env.run("ps auxww | grep 'celery worker' | grep -v grep | awk '{print $2}' | xargs kill -15")
+    env.run("ps auxww | grep 'celery beat' | grep -v grep | awk '{print $2}' | xargs kill -15")
 
 @task(alias='cct')
 def clear_celery_tasks():
@@ -162,8 +161,9 @@ def clear_silk_logs():
 def deploy():
     """
     Deploy after git pull
+    Note: `grep` and `awk` command should be wrapped with single quote
     """
     with env.cd(ROOT_DIR):
         env.run('git pull origin master')
-        env.run('ps -ef | grep uwsgi | grep -v grep | awk "{print $2}" | xargs kill -15')
+        env.run("ps -ef | grep 'uwsgi' | grep -v grep | awk '{print $2}' | xargs kill -15")
         env.run('uwsgi --uid www-data --gid www-data --emperor /etc/uwsgi/vassals --master --die-on-term --daemonize=' + ROOT_DIR + '/logs/uwsgi.log --disable-logging')
