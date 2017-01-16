@@ -8,7 +8,6 @@ from ConfigParser import ConfigParser
 from datetime import datetime, timedelta
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-PROJECT_NAME = os.path.basename(PROJECT_DIR)
 ROOT_DIR = os.path.dirname(PROJECT_DIR)
 APPS_DIR = os.path.join(PROJECT_DIR, 'apps')
 
@@ -21,6 +20,7 @@ config = ConfigParser()
 config.read(ROOT_DIR + '/conf/sensitive/configuration.ini')
 
 # Application configuration
+PROJECT_NAME = config.get('django', 'project_name')
 ROOT_URLCONF = PROJECT_NAME + '.urls'
 WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 SECRET_KEY = config.get('django', 'secret_key')
