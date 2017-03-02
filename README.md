@@ -1,3 +1,5 @@
+<img src="https://secure.travis-ci.org/ukjin1192/django-rest-framework-sample.png" />
+
 ## Stack
 
 - OS : Ubuntu 16.04 LTS
