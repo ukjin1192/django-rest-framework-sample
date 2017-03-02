@@ -4,4 +4,5 @@ python:
 # command to install dependencies
 install: "pip install -r ./conf/pip/requirements.txt"
 # command to run tests
-script: py.test
+script:
+  - fab localhost rt:main
