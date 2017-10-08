@@ -76,8 +76,8 @@
 
 ## Installation and customization
 
-- <a href="https://github.com/ukjin1192/web-stack-wiki-and-snippets/tree/master/ubuntu-basic-settings" target="_blank">Ubuntu basic settings</a>
-- <a href="https://github.com/ukjin1192/web-stack-wiki-and-snippets/tree/master/django-basic-settings" target="_blank">Django basic settings</a>
+- <a href="https://github.com/ukjin1192/web-stack-wiki-and-snippets/tree/master/1.ubuntu-basic-settings" target="_blank">Ubuntu basic settings</a>
+- <a href="https://github.com/ukjin1192/web-stack-wiki-and-snippets/tree/master/2.django-basic-settings" target="_blank">Django basic settings</a>
 - Clone project
 
 ~~~~
